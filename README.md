@@ -155,24 +155,46 @@ npm run preview
 }
 ```
 
-## 🚀 部署
+## 🚀 部署指南
 
-### 静态部署
+### GitHub 部署
 
-构建后的文件可以直接部署到任何静态文件服务器：
+1. **创建 GitHub 仓库**
+   ```bash
+   # 在 GitHub 上创建新仓库
+   # 仓库名：awesome-prompt
+   ```
 
-```bash
-npm run build
-```
+2. **推送代码到 GitHub**
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/awesome-prompt.git
+   git push -u origin main
+   ```
 
-生成的 `dist` 目录包含所有静态文件。
+### Vercel 部署
 
-### 推荐部署平台
+1. **访问 Vercel**
+   - 访问 [vercel.com](https://vercel.com)
+   - 使用 GitHub 账号登录
 
-- **Vercel**：零配置部署
-- **Netlify**：自动部署
-- **GitHub Pages**：免费托管
-- **阿里云 OSS**：国内访问
+2. **导入项目**
+   - 点击 "New Project"
+   - 选择你的 GitHub 仓库 `awesome-prompt`
+   - Vercel 会自动检测到这是一个 Vite 项目
+
+3. **配置部署**
+   - Framework Preset: Vite
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
+
+4. **部署**
+   - 点击 "Deploy"
+   - 等待构建完成
+
+### 自动部署
+
+配置完成后，每次推送到 `main` 分支都会自动触发 Vercel 部署。
 
 ## 🤝 贡献指南
 
