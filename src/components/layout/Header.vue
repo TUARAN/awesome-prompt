@@ -131,4 +131,4 @@ const toggleTheme = () => {
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
-</script> 
+</script>

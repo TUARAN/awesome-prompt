@@ -9,12 +9,14 @@ import Tutorials from './views/Tutorials.vue'
 import Examples from './views/Examples.vue'
 import About from './views/About.vue'
 import TutorialDetail from './views/TutorialDetail.vue'
+import AnthonyWriting from './views/AnthonyWriting.vue'
 
 // 路由配置
 const routes = [
   { path: '/', component: Home },
   { path: '/tutorials', component: Tutorials },
   { path: '/examples', component: Examples },
+  { path: '/anthony-writing', component: AnthonyWriting },
   { path: '/about', component: About },
   { path: '/tutorial/:id', component: TutorialDetail, props: true }
 ]
@@ -26,4 +28,4 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
-app.mount('#app') 
+app.mount('#app')

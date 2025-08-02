@@ -1,5 +1,66 @@
 <template>
   <div class="min-h-screen">
+    <!-- 悬浮引导卡片 - 安东尼写作提示语标杆示例 -->
+    <div class="fixed bottom-6 right-6 z-50">
+      <!-- 收缩状态 -->
+      <div v-if="isCardCollapsed" 
+           @click="expandCard"
+           class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-full shadow-2xl cursor-pointer transform transition-all duration-300 hover:scale-110 animate-pulse">
+        <div class="flex items-center">
+          <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <span class="text-sm font-medium">安东尼写作</span>
+          <div class="text-xs bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full font-medium ml-2">
+            🏆
+          </div>
+        </div>
+      </div>
+      
+      <!-- 展开状态 -->
+      <div v-else 
+           class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 rounded-2xl shadow-2xl max-w-sm transform transition-all duration-500 hover:scale-105 animate-bounce-gentle">
+        <button @click="collapseCard" 
+                class="absolute top-2 right-2 text-white/70 hover:text-white transition-colors"
+                title="收起">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        
+        <div class="flex items-center mb-3">
+          <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full font-medium">
+              🏆 标杆示例
+            </div>
+          </div>
+        </div>
+        
+        <h3 class="text-lg font-bold mb-2">安东尼写作提示语</h3>
+        <p class="text-sm text-white/90 mb-4 leading-relaxed">
+          与大模型共舞，创作更好的技术文章。查看完整的AI协作写作方法论！
+        </p>
+        
+        <div class="flex gap-2">
+          <router-link to="/anthony-writing" 
+                       class="flex-1 bg-white/20 hover:bg-white/30 text-center py-2 px-3 rounded-lg text-sm font-medium transition-colors">
+            立即查看
+          </router-link>
+          <button @click="collapseCard" 
+                  class="px-3 py-2 text-white/70 hover:text-white text-sm transition-colors">
+            收起
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="py-20 lg:py-32">
       <div class="container-custom">
@@ -114,4 +175,66 @@
       </div>
     </section>
   </div>
-</template> 
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+
+// 控制悬浮卡片的收缩状态
+const isCardCollapsed = ref(false)
+
+// 页面加载时检查是否已经收缩过卡片
+onMounted(() => {
+  const collapsed = localStorage.getItem('anthony-writing-card-collapsed')
+  if (collapsed === 'true') {
+    isCardCollapsed.value = true
+  }
+})
+
+// 收缩卡片
+const collapseCard = () => {
+  isCardCollapsed.value = true
+  localStorage.setItem('anthony-writing-card-collapsed', 'true')
+}
+
+// 展开卡片
+const expandCard = () => {
+  isCardCollapsed.value = false
+  localStorage.setItem('anthony-writing-card-collapsed', 'false')
+}
+</script>
+
+<style scoped>
+/* 自定义动画 */
+@keyframes bounce-gentle {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 3s infinite;
+}
+
+/* 悬浮卡片进入动画 */
+.fixed .bg-gradient-to-r {
+  animation: slideInFromRight 0.8s ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+</style>
