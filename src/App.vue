@@ -1,21 +1,15 @@
 <template>
   <div id="app" class="min-h-screen">
-    <Header />
-    <main class="flex-1">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </main>
-    <Footer />
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
-import Header from './components/layout/Header.vue'
-import Footer from './components/layout/Footer.vue'
 
 // 主题切换逻辑
 const initTheme = () => {
