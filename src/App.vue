@@ -1,15 +1,12 @@
 <template>
   <div id="app" class="min-h-screen">
-    <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <Home />
   </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
+import Home from './views/Home.vue'
 
 // 主题切换逻辑
 const initTheme = () => {
@@ -26,16 +23,4 @@ const initTheme = () => {
 onMounted(() => {
   initTheme()
 })
-</script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style> 
+</script> 
