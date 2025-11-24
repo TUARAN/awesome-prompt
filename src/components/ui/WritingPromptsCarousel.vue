@@ -1,18 +1,18 @@
 <template>
   <div class="relative w-full">
     <!-- 标签导航 -->
-    <div class="flex justify-center mb-8">
+    <div class="flex justify-center mb-8 relative z-40">
       <div class="flex space-x-2 bg-white/5 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-white/10">
         <template v-for="(prompt, index) in activePrompts" :key="prompt.id">
           <!-- CSDN 标签带下拉菜单 -->
           <div v-if="prompt.category === 'CSDN博客'" class="relative">
             <button 
-              @click="setActivePromptByPrompt(prompt)"
+              @click="handleCategoryClick('CSDN博客', prompt)"
               class="px-6 py-3 rounded-xl text-xs font-semibold transition-all duration-500 whitespace-nowrap relative overflow-hidden group flex items-center space-x-1"
-              :class="activePrompt?.id === prompt.id
+              :class="activePrompt?.category === 'CSDN博客'
                 ? 'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-xl transform scale-105' 
                 : 'text-white/70 hover:text-white hover:bg-white/10 hover:scale-105'">
-              <span class="relative z-10">{{ prompt.shortTitle }}</span>
+              <span class="relative z-10">{{ activePrompt?.category === 'CSDN博客' ? activePrompt.shortTitle : prompt.shortTitle }}</span>
               <button 
                 @click.stop="showCsdnHistory = !showCsdnHistory"
                 class="relative z-10 ml-1 p-0.5 hover:bg-white/20 rounded transition-colors">
@@ -20,13 +20,13 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </button>
-              <div v-if="activePrompt?.id !== prompt.id" class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div v-if="activePrompt?.category !== 'CSDN博客'" class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             
             <!-- CSDN 历史版本下拉菜单 -->
             <div v-if="showCsdnHistory" 
                  @click.stop
-                 class="absolute top-full left-0 mt-2 bg-white/10 backdrop-blur-xl rounded-xl shadow-2xl border border-white/20 z-50 min-w-[160px]">
+                 class="absolute top-full left-0 mt-2 bg-white/10 backdrop-blur-xl rounded-xl shadow-2xl border border-white/20 z-50 min-w-[160px] max-h-[300px] overflow-y-auto">
               <div class="py-1">
                 <button 
                   v-for="historyPrompt in csdnHistoryPrompts" 
@@ -45,12 +45,12 @@
           <!-- 翻译整理标签带下拉菜单 -->
           <div v-else-if="prompt.category === '翻译整理'" class="relative">
             <button 
-              @click="setActivePromptByPrompt(prompt)"
+              @click="handleCategoryClick('翻译整理', prompt)"
               class="px-6 py-3 rounded-xl text-xs font-semibold transition-all duration-500 whitespace-nowrap relative overflow-hidden group flex items-center space-x-1"
-              :class="activePrompt?.id === prompt.id
+              :class="activePrompt?.category === '翻译整理'
                 ? 'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-xl transform scale-105' 
                 : 'text-white/70 hover:text-white hover:bg-white/10 hover:scale-105'">
-              <span class="relative z-10">{{ prompt.shortTitle }}</span>
+              <span class="relative z-10">{{ activePrompt?.category === '翻译整理' ? activePrompt.shortTitle : prompt.shortTitle }}</span>
               <button 
                 @click.stop="showTranslationHistory = !showTranslationHistory"
                 class="relative z-10 ml-1 p-0.5 hover:bg-white/20 rounded transition-colors">
@@ -58,13 +58,13 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </button>
-              <div v-if="activePrompt?.id !== prompt.id" class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div v-if="activePrompt?.category !== '翻译整理'" class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             
             <!-- 翻译整理历史版本下拉菜单 -->
             <div v-if="showTranslationHistory" 
                  @click.stop
-                 class="absolute top-full left-0 mt-2 bg-white/10 backdrop-blur-xl rounded-xl shadow-2xl border border-white/20 z-50 min-w-[160px]">
+                 class="absolute top-full left-0 mt-2 bg-white/10 backdrop-blur-xl rounded-xl shadow-2xl border border-white/20 z-50 min-w-[160px] max-h-[300px] overflow-y-auto">
               <div class="py-1">
                 <button 
                   v-for="historyPrompt in translationHistoryPrompts" 
@@ -96,7 +96,7 @@
     </div>
     
     <!-- 内容展示 -->
-    <div class="rounded-3xl bg-white/5 backdrop-blur-xl p-8 lg:p-12 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300" :class="(showCsdnHistory || showTranslationHistory) ? 'mt-20' : 'mt-0'">
+    <div class="rounded-3xl bg-white/5 backdrop-blur-xl p-8 lg:p-12 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300" :class="(showCsdnHistory || showTranslationHistory) ? 'mt-32' : 'mt-0'">
       <!-- 背景装饰 -->
       <div class="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-blue-500/10 to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       
@@ -164,6 +164,7 @@ const writingPrompts = ref([
     id: 'csdn-v5-max',
     title: 'CSDN V5.0 Max 写作风格',
     shortTitle: 'CSDN V5.0 Max',
+    isHistory: true,
     description: '请你扮演一位经验丰富的技术博主、内容教练与开发者教育者，围绕「{{主题}}」撰写一篇高质量的原创技术博客。',
     category: 'CSDN博客',
     icon: '⭐',
@@ -305,6 +306,75 @@ const writingPrompts = ref([
 - 风格为"散文式技术叙事 + 高密度教学内容"
 
 🌟 现在，请你按照这一整套逻辑，写出一篇围绕「{{主题}}」的社区技术博客文章。`
+  },
+  {
+    id: 'csdn-v5-pro-max',
+    title: 'CSDN V5.0 Pro Max 写作风格',
+    shortTitle: 'CSDN V5.0 Pro Max',
+    description: '请你扮演一位经验丰富的技术博主、内容教练与开发者教育者，围绕「{{主题}}」撰写一篇高质量的原创技术博客。',
+    category: 'CSDN博客',
+    icon: '🚀',
+    sections: [
+      {
+        title: '核心理念',
+        items: [
+          '• 让读者顺着你的思路走进来、学得会、想得深',
+          '• 不是堆砌概念，也不是贴几段代码，而是能让一个刚入门的人「看懂原理、跟着操作、在结尾点头」',
+          '• 全文中不仅要写"是什么"，更要讲清"为什么"和"怎么用"'
+        ]
+      },
+      {
+        title: '开头要求',
+        items: [
+          '• 开头要像一场邀请，从真实项目、行业趋势、典型痛点或技术转折点切入',
+          '• 不要直接甩术语，也不要上来就在讲技术本身',
+          '• 开头示例要多样化，避免总是使用"这几年"这种固定句式'
+        ]
+      },
+      {
+        title: '正文要求',
+        items: [
+          '• 让抽象概念可视化，用类比、示意图、伪代码、工程经验或生活化比喻来帮助理解',
+          '• 在合适位置融入图示占位（每篇 3–5 张即可，不要大量堆图）',
+          '• meme 图要自然融入正文段落中，不要单独成节'
+        ]
+      },
+      {
+        title: '动手要求',
+        items: [
+          '• 必须包含最小可复现实验步骤、环境配置、核心代码段（务必有中文注释）',
+          '• 提供输入/输出示例和一个稍复杂的扩展案例',
+          '• 所有内容可直接复制运行'
+        ]
+      },
+      {
+        title: '结尾要求',
+        items: [
+          '• 收尾要升维，不要写"总结一下""感谢观看"',
+          '• 回到开头的问题，用一个观点、隐喻或行业洞察收束全文',
+          '• 最后附轻度互动引导，既有人味，也符合算法对"完结信号"的识别'
+        ]
+      }
+    ],
+    template: `请你扮演一位经验丰富的技术博主、内容教练与开发者教育者，围绕「{{主题}}」写一篇高质量技术博客。文章面向 CSDN、掘金、知乎与 Medium，需要同时满足可读性、深度和教学价值，整体语气自然、有亲和力，像在和读者聊天，但内容必须严谨、结构清晰。文章输出不要重复"指令里"的词，也不要写出你是在"执行命令"，而是像一篇本来就要发表的原创技术长文。
+
+开头要从真实问题、典型误区、工程现场或强烈反差切入，让读者在第一段就产生代入感，觉得"这就是我最近遇到的情况"，避免生硬抛概念和堆术语，叙事风格要柔和，不标签化、不套路化、不写成宣传语。
+
+全文采用 H1、H2、H3 分层结构，但标题文案里不要出现"H1/H2/H3"字样；整篇建议分成 3～4 个主要部分自然衔接，每个段落三到六句，段与段之间真实换行，保持散文式技术叙事与工程级教学内容的结合。
+
+在正文讲解中，你需要把抽象机制讲到"能在脑子里形成画面"的程度，结合贴切类比、示意图、思维模型、伪代码与真实工程经验，帮助读者构建对 {{主题}} 的整体心智模型。
+
+写作前请先在内部生成一个随机数，用它随机决定本篇采用"图多模式"还是"图少模式"：若选择图多模式，全文自然穿插约 5 张技术图和 2 张 meme 图；若选择图少模式，全文自然穿插约 3 张技术图和 1 张 meme 图。所有图片必须通过 image_group 输出，并使用真实可访问的 PNG/JPG 外链（如 raw.githubusercontent.com、imgur、wikimedia 等），图片内容要与当前讲解高度契合，不要集中堆放，而是跟随叙事在合适的位置自然出现，meme 图直接展示即可，不用特别说明"这是 meme 图"。
+
+在图多模式下，代码示例要相对精简，控制在 1～2 段核心代码，更多依赖图和文字讲清楚原理；在图少模式下，适度增加代码比重，给出 2～3 段有层次的代码示例，通过逐步递进的代码帮助读者补齐"缺少的画面感"。
+
+无论是图多还是图少模式，文章中必须包含一个"最小可复现实验"，要求读者拷贝即可直接运行。请给出完整的环境配置说明、依赖安装指令、核心代码（包含清晰的中文注释）、示例输入与对应的示例输出，并在此基础上再给出一个稍微复杂的扩展版本，让读者能先"跑通"，再通过扩展版本理解为什么要这样设计。
+
+务必保证所有代码块的 Markdown 格式不被破坏：所有代码都必须使用 Markdown 三反引号独立包裹；代码块前后不要紧贴放图片或额外修饰；保持缩进、注释与排版完全规范，确保复制到 CSDN、掘金、知乎后格式不会错乱。
+
+整篇文章不要写成流水账，也不要堆叠关键词，深度要做到：入门者能读懂并跑通，进阶者也能在叙事与细节中获得新的理解或视角。
+
+收尾部分需要自然回到开头提出的那个真实问题或场景，形成一种"首尾呼应"的闭环，同时稍微把视角拉高一点，从行业趋势、设计哲学、实践取舍、未来演进方向等角度给读者一个更远一点的参照系，但不要使用"总结一下"这样的句式。最后一句用自然的互动方式落笔，例如：如果你也在探索 {{主题}}，欢迎留言交流。`
   },
   {
     id: 'csdn-v5',
@@ -808,7 +878,7 @@ const activeIndex = ref(0)
 const showCopySuccess = ref(false)
 const showCsdnHistory = ref(false)
 const showTranslationHistory = ref(false)
-const activePromptId = ref('csdn-v5-max') // 默认选中 CSDN V5.0 Max
+const activePromptId = ref('csdn-v5-pro-max') // 默认选中 CSDN V5.0 Pro Max
 
 // 计算当前激活的提示语（从所有提示词中查找）
 const activePrompt = computed(() => {
@@ -821,14 +891,28 @@ const activePrompts = computed(() => {
   return writingPrompts.value.filter(p => !p.isHistory)
 })
 
-// 计算 CSDN 历史版本的提示词（只包含 CSDN 类别且是历史版本的）
+// 计算 CSDN 所有版本的提示词（按指定顺序：Pro Max、Max、Pro、5.0）
 const csdnHistoryPrompts = computed(() => {
-  return writingPrompts.value.filter(p => p.isHistory && p.category === 'CSDN博客')
+  const allCsdn = writingPrompts.value.filter(p => p.category === 'CSDN博客')
+  // 定义排序顺序
+  const order = ['csdn-v5-pro-max', 'csdn-v5-max', 'csdn-v5-pro', 'csdn-v5']
+  return allCsdn.sort((a, b) => {
+    const indexA = order.indexOf(a.id)
+    const indexB = order.indexOf(b.id)
+    // 如果 id 不在 order 中，放到最后
+    if (indexA === -1) return 1
+    if (indexB === -1) return -1
+    return indexA - indexB
+  })
 })
 
-// 计算翻译整理历史版本的提示词（只包含翻译整理类别且是历史版本的）
+// 计算翻译整理所有版本的提示词（包含当前版本和历史版本，当前版本在前）
 const translationHistoryPrompts = computed(() => {
-  return writingPrompts.value.filter(p => p.isHistory && p.category === '翻译整理')
+  const allTranslation = writingPrompts.value.filter(p => p.category === '翻译整理')
+  // 将当前版本（非历史版本）放在前面，历史版本放在后面
+  const current = allTranslation.filter(p => !p.isHistory)
+  const history = allTranslation.filter(p => p.isHistory)
+  return [...current, ...history]
 })
 
 // 通过提示词对象设置激活的提示语
@@ -837,6 +921,21 @@ const setActivePromptByPrompt = (prompt) => {
   const index = writingPrompts.value.findIndex(p => p.id === prompt.id)
   if (index !== -1) {
     activeIndex.value = index
+  }
+}
+
+// 处理类别按钮点击：如果当前已经是该类别，只切换下拉菜单；否则切换到该类别下的当前版本
+const handleCategoryClick = (category, currentVersionPrompt) => {
+  if (activePrompt.value?.category === category) {
+    // 如果当前已经是该类别，只切换下拉菜单
+    if (category === 'CSDN博客') {
+      showCsdnHistory.value = !showCsdnHistory.value
+    } else if (category === '翻译整理') {
+      showTranslationHistory.value = !showTranslationHistory.value
+    }
+  } else {
+    // 如果当前不是该类别，切换到该类别下的当前版本
+    setActivePromptByPrompt(currentVersionPrompt)
   }
 }
 
