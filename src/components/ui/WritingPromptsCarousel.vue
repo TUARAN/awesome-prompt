@@ -1,8 +1,23 @@
 <template>
   <div class="relative w-full">
-    <!-- 标签导航 -->
-    <div class="flex justify-center mb-8 relative z-40">
-      <div class="flex space-x-2 bg-white/5 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-white/10">
+    <!-- 统一的卡片容器 -->
+    <div class="rounded-3xl bg-white/5 backdrop-blur-xl p-8 lg:p-12 shadow-2xl border border-white/10 relative overflow-hidden">
+      <div class="max-w-4xl mx-auto space-y-8">
+        <!-- 标题和说明 -->
+        <div class="text-center space-y-4">
+          <h2 class="text-3xl font-bold text-white">
+            <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
+              第一步：结构层 - Prompt 模板库
+            </span>
+          </h2>
+          <p class="text-white/70 text-base max-w-2xl mx-auto">
+            这是基础层：将写作要求、风格指南、读者画像从「文本描述」变成「结构化对象」，建立静态的模板库和规范体系
+          </p>
+        </div>
+        
+        <!-- 标签导航 -->
+        <div class="flex justify-center relative z-40">
+          <div class="flex space-x-2 bg-white/5 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-white/10">
         <template v-for="(prompt, index) in activePrompts" :key="prompt.id">
           <!-- CSDN 标签带下拉菜单 -->
           <div v-if="prompt.category === 'CSDN博客'" class="relative">
@@ -96,7 +111,7 @@
     </div>
     
     <!-- 内容展示 -->
-    <div class="rounded-3xl bg-white/5 backdrop-blur-xl p-8 lg:p-12 shadow-2xl border border-white/10 relative overflow-hidden group transition-all duration-300" :class="(showCsdnHistory || showTranslationHistory) ? 'mt-32' : 'mt-0'">
+    <div class="relative overflow-hidden group transition-all duration-300" :class="(showCsdnHistory || showTranslationHistory) ? 'mt-8' : 'mt-0'">
       <!-- 背景装饰 -->
       <div class="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-blue-500/10 to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       
@@ -136,9 +151,12 @@
         </div>
       </div>
     </div>
-    
-    <!-- 复制成功提示 -->
-    <div v-if="showCopySuccess" 
+      </div>
+    </div>
+  </div>
+  
+  <!-- 复制成功提示 -->
+  <div v-if="showCopySuccess" 
          class="fixed top-8 right-8 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 transform transition-all duration-500 backdrop-blur-sm border border-green-400/30"
          :class="showCopySuccess ? 'translate-x-0 opacity-100 scale-100' : 'translate-x-full opacity-0 scale-95'">
       <div class="flex items-center space-x-3">
@@ -152,7 +170,6 @@
       <!-- 进度条 -->
       <div class="absolute bottom-0 left-0 h-1 bg-white/30 rounded-b-2xl animate-progress"></div>
     </div>
-  </div>
 </template>
 
 <script setup>
