@@ -28,13 +28,13 @@
                 ? 'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-xl transform scale-105' 
                 : 'text-white/70 hover:text-white hover:bg-white/10 hover:scale-105'">
               <span class="relative z-10">{{ activePrompt?.category === 'CSDN博客' ? activePrompt.shortTitle : prompt.shortTitle }}</span>
-              <button 
+              <span 
                 @click.stop="showCsdnHistory = !showCsdnHistory"
-                class="relative z-10 ml-1 p-0.5 hover:bg-white/20 rounded transition-colors">
+                class="relative z-10 ml-1 p-0.5 hover:bg-white/20 rounded transition-colors cursor-pointer inline-flex items-center">
                 <svg class="w-3 h-3 transition-transform" :class="showCsdnHistory ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-              </button>
+              </span>
               <div v-if="activePrompt?.category !== 'CSDN博客'" class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             
@@ -66,13 +66,13 @@
                 ? 'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-xl transform scale-105' 
                 : 'text-white/70 hover:text-white hover:bg-white/10 hover:scale-105'">
               <span class="relative z-10">{{ activePrompt?.category === '翻译整理' ? activePrompt.shortTitle : prompt.shortTitle }}</span>
-              <button 
+              <span 
                 @click.stop="showTranslationHistory = !showTranslationHistory"
-                class="relative z-10 ml-1 p-0.5 hover:bg-white/20 rounded transition-colors">
+                class="relative z-10 ml-1 p-0.5 hover:bg-white/20 rounded transition-colors cursor-pointer inline-flex items-center">
                 <svg class="w-3 h-3 transition-transform" :class="showTranslationHistory ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-              </button>
+              </span>
               <div v-if="activePrompt?.category !== '翻译整理'" class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             

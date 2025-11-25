@@ -61,15 +61,30 @@
               <!-- 上下文工程介绍 -->
               <div class="mt-8 max-w-4xl mx-auto px-4">
                 <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 text-left">
-                  <p class="text-white/80 text-sm leading-relaxed mb-4">
-                    在技术写作领域，<span class="text-white font-semibold">精密上下文工程（Context Engineering）</span>不是简单的提示词技巧，而是一种系统方法论。它让 AI 从「输入-输出」的简单模式，走向「有状态的推理流程」，真正理解技术写作的深层逻辑。
-                  </p>
-                  <div class="space-y-3 mb-4">
-                    <p class="text-white/70 text-xs italic">
-                      对于技术写作，LLM 就像「单线程 CPU + 巨大缓存 + 弱内存」，而 Context Engineering 就是它的「运行时环境」——让模型真正理解技术逻辑、写作风格和读者需求。
-                    </p>
+                  <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                      <p class="text-white/80 text-sm leading-relaxed">
+                        在技术写作领域，<span class="text-white font-semibold">精密上下文工程（Context Engineering）</span>不是简单的提示词技巧，而是一种系统方法论。它让 AI 从「输入-输出」的简单模式，走向「有状态的推理流程」，真正理解技术写作的深层逻辑。
+                      </p>
+                    </div>
+                    <button 
+                      @click="isContextExpanded = !isContextExpanded"
+                      class="ml-4 flex-shrink-0 p-2 hover:bg-white/10 rounded-lg transition-all duration-300 group"
+                      :class="isContextExpanded ? 'rotate-180' : ''">
+                      <svg class="w-5 h-5 text-white/70 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </button>
                   </div>
-                  <div class="space-y-4">
+                  
+                  <transition name="expand">
+                    <div v-show="isContextExpanded">
+                      <div class="space-y-3 mb-4">
+                        <p class="text-white/70 text-xs italic">
+                          对于技术写作，LLM 就像「单线程 CPU + 巨大缓存 + 弱内存」，而 Context Engineering 就是它的「运行时环境」——让模型真正理解技术逻辑、写作风格和读者需求。
+                        </p>
+                      </div>
+                      <div class="space-y-4">
                     <!-- 第一层：基础结构 -->
                     <div class="flex items-start space-x-3 pb-3 border-b border-white/5">
                       <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold">1</div>
@@ -109,13 +124,15 @@
                         <p class="text-cyan-400/70 text-xs italic">→ 整合前三层：形成完整的动态系统，具备自适应和优化能力</p>
                       </div>
                     </div>
-                  </div>
-                  <div class="mt-4 pt-4 border-t border-white/10">
-                    <p class="text-white/90 text-xs font-semibold mb-2">技术写作的核心观点：</p>
-                    <p class="text-white/70 text-xs leading-relaxed">
-                      世界上没有强模型，只有强上下文。在技术写作中，当你能为模型构建一个结构化、稳定、高质量、动态演化的上下文环境时——包括写作风格、技术深度、读者画像、平台算法要求等——你实际上是在为模型搭建一个「增强智能装置」，让它真正理解技术写作的本质。
-                    </p>
-                  </div>
+                      </div>
+                      <div class="mt-4 pt-4 border-t border-white/10">
+                        <p class="text-white/90 text-xs font-semibold mb-2">技术写作的核心观点：</p>
+                        <p class="text-white/70 text-xs leading-relaxed">
+                          世界上没有强模型，只有强上下文。在技术写作中，当你能为模型构建一个结构化、稳定、高质量、动态演化的上下文环境时——包括写作风格、技术深度、读者画像、平台算法要求等——你实际上是在为模型搭建一个「增强智能装置」，让它真正理解技术写作的本质。
+                        </p>
+                      </div>
+                    </div>
+                  </transition>
                 </div>
               </div>
             </div>
@@ -213,6 +230,9 @@ import Step4DynamicContextPipeline from '@/components/ui/Step4DynamicContextPipe
 // 当前步骤
 const currentStep = ref(1)
 
+// 上下文工程介绍折叠状态（默认折叠）
+const isContextExpanded = ref(false)
+
 // 切换步骤并滚动到对应位置
 const switchStep = (step) => {
   currentStep.value = step
@@ -301,5 +321,28 @@ const getParticleStyle = (index) => {
   .particles-container {
     display: none;
   }
+}
+
+/* 折叠展开动画 */
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.3s ease-out;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  opacity: 1;
+  max-height: 2000px;
 }
 </style>
