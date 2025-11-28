@@ -26,14 +26,15 @@
     <!-- 内容层 -->
     <div class="relative z-10">
       <!-- 左上角 Logo -->
+      <!-- 原标题：Context Studio · 技术写作 -->
       <div class="fixed top-4 left-4 sm:top-6 sm:left-6 z-50">
         <div class="flex items-center space-x-2">
           <div class="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
-            <span class="text-white font-bold text-xs sm:text-sm">C</span>
+            <span class="text-white font-bold text-xs sm:text-sm">上</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-white font-bold text-base sm:text-lg bg-gradient-to-r from-white via-cyan-300 to-blue-500 bg-clip-text text-transparent leading-tight">Context Studio</span>
-            <span class="text-white/60 text-xs leading-tight">技术写作</span>
+            <span class="text-white font-bold text-base sm:text-lg bg-gradient-to-r from-white via-cyan-300 to-blue-500 bg-clip-text text-transparent leading-tight">上下写作</span>
+            <span class="text-white/60 text-xs leading-tight">AI写作工具</span>
           </div>
         </div>
       </div>
@@ -43,14 +44,15 @@
         <div class="max-w-7xl mx-auto px-6">
           <div class="text-center space-y-6">
             <!-- 网站标题 -->
+            <!-- 原标题：Context Studio · 技术写作 / 技术写作上下文工程 -->
             <div class="space-y-4">
               <div>
                 <div class="mb-4">
-                  <span class="text-white/60 text-sm font-medium">Context Studio · 技术写作</span>
+                  <span class="text-white/60 text-sm font-medium">上下写作 · AI写作提示词工具</span>
                 </div>
                 <h1 class="text-3xl lg:text-4xl font-bold text-white mb-3">
                   <span class="bg-gradient-to-r from-white via-cyan-300 to-blue-500 bg-clip-text text-transparent">
-                    技术写作上下文工程
+                    上下写作
                   </span>
                 </h1>
                 <p class="text-base text-white/70 max-w-2xl mx-auto leading-relaxed">
